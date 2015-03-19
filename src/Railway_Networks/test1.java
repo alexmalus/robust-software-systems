@@ -14,7 +14,7 @@ public class test1 {
 		HashMap endings = new HashMap<String, String>();
 
 		try {
-			File file = new File("test.txt");
+			File file = new File("train.txt");
 
 			Scanner scan = new Scanner(file);
 

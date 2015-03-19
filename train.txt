@@ -1,0 +1,9 @@
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+CONN h b
+CONN b l
+CONN b k
+END h
+END l
+END k
