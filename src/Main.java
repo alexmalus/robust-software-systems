@@ -1,10 +1,12 @@
-import Railway_Networks.test1;
+import Railway_Networks.RailwayParser;
+
+
 
 public class Main {
 
 	public static void main(String[] args) {
-		test1 test = new test1();
-		test.test();
+		RailwayParser rp = new RailwayParser();
+		rp.validate("train.txt");
 	}
 
 }
