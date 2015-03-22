@@ -3,6 +3,7 @@ STAT Hellerup h
 STAT Lyngby l
 STAT Klampenborg k
 CONN h b
+CONN h l
 CONN b l
 CONN b k
 END h

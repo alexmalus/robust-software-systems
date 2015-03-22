@@ -13,6 +13,7 @@ public class RailwayParser {
 	// HashMap connections = new HashMap<String, String>();
 	// HashMap endings = new HashMap<String, String>();
 
+	private int lineNumber = 1;
 	HashMap<String, Segment> segments = new HashMap<String, Segment>();
 //	HashMap<String, Segment> segments = new HashMap<String, Segment>();
 //	HashMap<String, Segment> segments = new HashMap<String, Segment>();
@@ -41,8 +42,9 @@ public class RailwayParser {
 				Scanner scan = new Scanner(file);
 				
 				while (scan.hasNextLine()) {
+					lineNumber++;
 					String line = scan.nextLine();
-					
+
 					// Removes unnecessary white spaces
 					line = line.replaceAll("\\s+", " ");
 //					String[] word = line.trim().split(" ");
@@ -52,24 +54,23 @@ public class RailwayParser {
 						continue;
 					}
 
-					String[] lineSplit = line.split(" ");
-					if (lineSplit.length == 3) {
-						if (lineSplit[0].equals("STAT")) {
-							CheckStation(lineSplit);
-						} else if (lineSplit[0].equals("CONN")) {
-							CheckConnection(lineSplit);
+					String[] word = line.split(" ");
+					if (word.length == 3) {
+						if (word[0].equals("STAT")) {
+							CheckStation(word);
+						} else if (word[0].equals("CONN")) {
+							CheckConnection(word);
 						}
 					}
 
-					else if (lineSplit.length == 2) {
-						if (lineSplit[0].equals("END")) {
-							CheckEnd(lineSplit);
+					else if (word.length == 2) {
+						if (word[0].equals("END")) {
+							CheckEnd(word);
 						}
 					} else
 						System.out.print("Invalid line!");
 
 					System.out.println();
-
 				}
 				scan.close();
 			} catch (FileNotFoundException e) {
@@ -114,7 +115,10 @@ public class RailwayParser {
 		System.out.print(" (" + word[2] + ")");
 
 		if(segments.containsKey(word[1])){
-			segments.get(word[1]).addConnection(word[2]);
+			if(!"STAT".equals(segments.get(word[1]).getType()) && segments.get(word[1]).getSize() > 2){
+				System.out.println("ERROR: too many connections for this station!");
+			} else
+				segments.get(word[1]).addConnection(word[2]);
 		} else {
 			segments.put(word[1], new Segment(word[0]));
 			segments.get(word[1]).addConnection(word[2]);
@@ -136,13 +140,18 @@ public class RailwayParser {
 //		}
 	}
 
-	public void CheckEnd(String[] lineSplit) {
+	public void CheckEnd(String[] word) {
 		System.out.print("Found ENDING");
 		// Check that all connections with only one connections
 		// have an end-point - otherwise, throw a hissy fit!
-		if (segments.containsKey(lineSplit[1])) {
-			segments.get(lineSplit[1]).addConnection("END");
-			System.out.print(" (added: " + lineSplit[1] + ")");
+		if (segments.containsKey(word[1])) {
+			if(segments.get(word[1]).getSize() > 1){
+				System.out.println("ERROR (" + lineNumber + ")");
+				return;
+			}
+			else
+				segments.get(word[1]).addConnection("END");
+			System.out.print(" (added: " + word[1] + ")");
 		}
 	}
 	
