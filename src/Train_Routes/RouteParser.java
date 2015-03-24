@@ -34,7 +34,7 @@ public class RouteParser {
 			while ((line = br.readLine()) != null) {
 				//System.out.println(line);
 				if (line.startsWith("ROUTE")){
-					String[] parts = line.split(" ");
+					String[] parts = line.split(" ");//can this result in a null value in the array in any possible way? - Casper
 					
 					if (parts.length == 3){
 						if (parts[1].length() == 1 && parts[2].length() == 1){

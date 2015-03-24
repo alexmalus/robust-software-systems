@@ -30,7 +30,6 @@ public class RailwayParser {
 	
 	public void Run(String filepath) {
 		{
-
 			try {
 				File file = new File(filepath);
 
@@ -40,32 +39,31 @@ public class RailwayParser {
 				}
 				
 				Scanner scan = new Scanner(file);
-				
 				while (scan.hasNextLine()) {
 					lineNumber++;
 					String line = scan.nextLine();
 
-					// Removes unnecessary white spaces
-					line = line.replaceAll("\\s+", " ");
-//					String[] word = line.trim().split(" ");
+					// Removes unnecessary white spaces and leading and trailing spaces.
+					line = line.replaceAll("\\s+", " ").trim();
 					
 					// Allow comments in text file
 					if ("#".equals(line.substring(0,1))){					
-						continue;
+						//line is a comment.
+						continue; //skip to next iteration
 					}
 
-					String[] word = line.split(" ");
-					if (word.length == 3) {
-						if (word[0].equals("STAT")) {
-							CheckStation(word);
-						} else if (word[0].equals("CONN")) {
-							CheckConnection(word);
+					String[] words = line.split(" ");
+					if (words.length == 3) {
+						if ("STAT".equals(words[0])) {
+							CheckStation(words);
+						} else if ("CONN".equals(words[0])) {
+							CheckConnection(words);
 						}
 					}
 
-					else if (word.length == 2) {
-						if (word[0].equals("END")) {
-							CheckEnd(word);
+					else if (words.length == 2) {
+						if ("END".equals(words[0])) {
+							CheckEnd(words);
 						}
 					} else
 						System.out.print("Invalid line!");
@@ -77,7 +75,7 @@ public class RailwayParser {
 				e.printStackTrace();
 			}
 
-			// Hold da kæft, så meget arbejde bare for at søge gennem et dictionary!?
+			
 			Iterator<?> it = segments.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry pair = (Map.Entry) it.next();
@@ -143,7 +141,7 @@ public class RailwayParser {
 	public void CheckEnd(String[] word) {
 		System.out.print("Found ENDING");
 		// Check that all connections with only one connections
-		// have an end-point - otherwise, throw a hissy fit!
+		// have an end-point - otherwise, throw a hissy fit! ... or an exception as they are called.
 		if (segments.containsKey(word[1])) {
 			if(segments.get(word[1]).getSize() > 1){
 				System.out.println("ERROR (" + lineNumber + ")");
