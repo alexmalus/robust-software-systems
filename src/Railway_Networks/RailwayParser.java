@@ -75,7 +75,6 @@ public class RailwayParser {
 				e.printStackTrace();
 			}
 
-			
 			Iterator<?> it = segments.entrySet().iterator();
 			while (it.hasNext()) {
 				Map.Entry pair = (Map.Entry) it.next();
