@@ -1,13 +1,11 @@
+# Route Name
+NAME -- Test Route 1
 # Route Connections
-ROUTE a b
-ROUTE b c
-ROUTE c d
-ROUTE d e
-ROUTE e f
-ROUTE f g
-ROUTE g h
-# Route stops
-STOP a
-STOP c
-STOP e
-STOP h
+TRACK a TRUE
+TRACK b FALSE
+TRACK c TRUE
+TRACK d FALSE
+TRACK e TRUE
+TRACK f FALSE
+TRACK g FALSE
+TRACK h TRUE
