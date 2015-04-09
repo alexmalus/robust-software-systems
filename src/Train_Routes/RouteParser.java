@@ -7,118 +7,92 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RouteParser {
-
-	private HashMap<Character, trTrackModel> route;
 	
-	public static void main(String args[]){
-		RouteParser rp = new RouteParser();
+	public HashMap<String, ArrayList<trTrackModel>> readRouteSpecifications(String[] filePaths){
+		int counter = 1;
 		
-		rp.run();
-	}
-	
-	public void run(){
-		System.out.println("START");
-		route = new HashMap<Character, trTrackModel>();
+		HashMap<String, ArrayList<trTrackModel>> routeList = new HashMap<String, ArrayList<trTrackModel>>();
 		
-		readRouteSpecifications();
-	}
-	
-	public void readRouteSpecifications(){
-		
-		try{
-			File f = new File("testRoute1.txt");
-			FileReader fr = new FileReader(f);
-			BufferedReader br = new BufferedReader(fr);
-			 
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				//System.out.println(line);
-				if (line.startsWith("ROUTE")){
-					String[] parts = line.split(" ");//can this result in a null value in the array in any possible way? - Casper
-					
-					if (parts.length == 3){
-						if (parts[1].length() == 1 && parts[2].length() == 1){
-							char id1 = parts[1].toCharArray()[0];
-							char id2 = parts[2].toCharArray()[0];
-							
-							if (Character.isLetterOrDigit(id1) && Character.isLetterOrDigit(id2)){
-								trackSpecification(id1, id2);
-							}
-							else{
-								System.out.println("ERROR: id1 and/or id2 is not a char - " + line);
-							}
-						}
-						else{
-							System.out.println("ERROR: id1 and/or id2 is not a char - " + line);
-						}
-					}
-					else{
-						System.out.println("ERROR: parts length track - " + line);
-					}
-				}
-				else if (line.startsWith("STOP")){
-					String[] parts = line.split(" ");
-					
-					if (parts.length == 2){
-						if (parts[1].length() == 1){
-							char id = parts[1].toCharArray()[0];
-							
-							if (Character.isLetterOrDigit(id)){
-								stopSpecification(id);
-							}
-							else{
-								System.out.println("ERROR: id is not a char - " + line);
-							}
-						}
-						else{
-							System.out.println("ERROR: id is not a char - " + line);
-						}
-					}
-					else{
-						System.out.println("ERROR: parts length stop - " + line);
-					}
-				}
-				else if (line.startsWith("#")){
-					System.out.println("COMMENT: " + line);
-				}
-				else{
-					System.out.println("ERROR: incorrect line - " + line);
-				}
-			}
-		 
-			br.close();
-		}
-		catch(Exception e){
-			e.printStackTrace();;
-		}
-	}
-	
-	public void trackSpecification(char id1, char id2){
-		if (!this.route.containsKey(id1)){
-			this.route.put(id1, new trTrackModel(id1));
-		}
-		
-		if (!this.route.containsKey(id2)){
-			this.route.put(id2, new trTrackModel(id2));
-		}
-		
-		this.route.get(id1).setRightConnection(this.route.get(id2));
-		this.route.get(id2).setLeftConnection(this.route.get(id1));
-	}
-	
-	public void stopSpecification(char id){
-		if (this.route.containsKey(id)){
-			this.route.get(id).setIsStop(true);
-		}
-		else{
-			trTrackModel t = new trTrackModel(id);
-			t.setIsStop(true);
+		for(String fPath : filePaths){
+			String routeName = "NoName_" + counter;
 			
-			this.route.put(id, t);
+			ArrayList<trTrackModel> route = new ArrayList<trTrackModel>();
+			
+			try{
+				File f = new File(fPath);
+				FileReader fr = new FileReader(f);
+				BufferedReader br = new BufferedReader(fr);
+				 
+				String line = null;
+				while ((line = br.readLine()) != null){
+					if (line.startsWith("NAME")){
+						String[] nameParts = line.split(" -- ");
+						
+						if (nameParts.length == 2){
+							if (nameParts[1].length() > 0){
+								routeName = nameParts[1];
+							}
+							else{
+								System.out.println("ERROR: A line that starts with 'NAME' does not contain a name.");
+								System.out.println("\t" + line);
+							}
+						}
+						else{
+							System.out.println("ERROR: A line that starts with 'NAME' does not follow the specification rules.");
+							System.out.println("\t" + line);
+						}
+					}
+					else if (line.startsWith("TRACK")){
+						String[] trackParts = line.split(" ");
+						
+						if (trackParts.length == 3){							
+							if (trackParts[1].length() == 1 && (trackParts[2].equals("TRUE") || trackParts[2].equals("FALSE"))){
+								char id = trackParts[1].charAt(0);
+								
+								if (Character.isLetterOrDigit(id)){
+									if (trackParts[2].equals("TRUE")){
+										route.add(new trTrackModel(id, true));
+									}
+									else{
+										route.add(new trTrackModel(id, false));
+									}
+								}
+								else{
+									System.out.println("ERROR: A line that starts with 'TRACK' does not have a single character id which is a letter or digit.");
+									System.out.println("\t" + line);
+								}
+								
+							}
+							else{
+								System.out.println("ERROR: A line that starts with 'TRACK' does not have a single character id or a correct boolean value (TRUE/FALSE).");
+								System.out.println("\t" + line);
+							}
+						}
+						else{
+							System.out.println("ERROR: A line that starts with 'TRACK' does not follow the specification rules.");
+							System.out.println("\t" + line);
+						}
+					}
+					else if (line.startsWith("#")){
+						System.out.println("COMMENT: " + line);
+					}
+					else{
+						System.out.println("ERROR: A in the file does not follow the specification rules.");
+						System.out.println("\t" + line);
+					}
+				}
+			 
+				br.close();
+				fr.close();
+			}
+			catch(Exception e){
+				e.printStackTrace();;
+			}	
+			
+			routeList.put(routeName, route);
+			counter++;
 		}
-	}
-	
-	public void updateRoute(){
 		
+		return routeList;
 	}
 }
