@@ -1,0 +1,6 @@
+#TEST
+#we need to have at least two stations
+#at least one CONN
+#of course, if we leave it like this
+#the error from railway_8.txt should pop up
+#which will mean that we also need 2 endpoints for the stations

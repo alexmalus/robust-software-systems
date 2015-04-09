@@ -1,0 +1,12 @@
+#TEST
+#command which is not STAT, CONN, END or a comment
+something else
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+CONN h b
+CONN b k
+CONN b l
+END k
+END h
+END l

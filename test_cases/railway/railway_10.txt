@@ -1,0 +1,13 @@
+#TEST
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+CONN h b
+CONN b k
+#l is not used although it is defined as a station.
+#as specified in railway_8 from what the teacher said,
+#Each station must have two connections to it, so this needs to trigger the error.
+#CONN b l
+END k
+END h
+END l

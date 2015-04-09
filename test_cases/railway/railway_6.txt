@@ -1,0 +1,16 @@
+#TEST
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+#we must have at most 1 station with the same name defined
+STAT Hellerup h
+CONN h b
+CONN b k
+CONN b l
+#we must have at most 1 CONN with the same stations defined
+CONN b l
+END k
+END h
+END l
+#we must have at most 1 endpoint with the same station defined
+END l
