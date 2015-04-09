@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class tmpTrainRouteTests {
 
-	public boolean isRouteValid(ArrayList<trTrackModel> route){
-		for (trTrackModel track : route){
+	public boolean isRouteValid(trRouteModel route){
+		for (trTrackModel track : route.getRoute()){
 			System.out.println("Id: " + track.getId() + " - Stop: " + track.getIsStop());
 		}
 		boolean trueTracks = tracksExistInNetwork(route);
@@ -16,14 +16,14 @@ public class tmpTrainRouteTests {
 		return trueTracks & isLinked & has2EndTracks & noDuplicates;
 	}
 	
-	public boolean tracksExistInNetwork(ArrayList<trTrackModel> route){
+	public boolean tracksExistInNetwork(trRouteModel route){
 		/**
 		 * here it needs to be verified that all the tracks in the route exist in the  network.
 		 */
 		return true;
 	}
 
-	public boolean isRouteLinked(ArrayList<trTrackModel> route){
+	public boolean isRouteLinked(trRouteModel route){
 		/**
 		 * here it needs to be verified that the connection in the route exist in the network
 		 * and that no jumps are performed.
@@ -31,7 +31,7 @@ public class tmpTrainRouteTests {
 		return true;
 	}
 	
-	public boolean hasTwoEnds(ArrayList<trTrackModel> route){
+	public boolean hasTwoEnds(trRouteModel route){
 		/**
 		 * here it needs to be verified that the first and last track in the route is also
 		 * connected to another track or an end track. If it leads to another track it does
@@ -40,14 +40,14 @@ public class tmpTrainRouteTests {
 		return true;
 	}
 	
-	public boolean noDuplicateTracks(ArrayList<trTrackModel> route){
+	public boolean noDuplicateTracks(trRouteModel route){
 		/**
 		 * Here it needs to be verified that there are no duplicate tracks.
 		 */
 		
 		ArrayList<Character> ids = new ArrayList<Character>();
 		
-		for (trTrackModel track : route){
+		for (trTrackModel track : route.getRoute()){
 			if (ids.contains(track.getId())){
 				return false;
 			}
@@ -55,6 +55,7 @@ public class tmpTrainRouteTests {
 				ids.add(track.getId());
 			}
 		}
+		
 		return true;
 	}
 }

@@ -9,9 +9,10 @@ public class TrainRouteRunner {
 		System.out.println("START");
 		RouteParser rp = new RouteParser();
 		
-		String[] paths = {"testRoute1.txt"};
-		HashMap<String, ArrayList<trTrackModel>> routeList = rp.readRouteSpecifications(paths);
+		String[] paths = {"testRoute1.txt", "testRoute2.txt", "testRoute3.txt"};
+		HashMap<String, trRouteModel> routeList = rp.readRouteSpecifications(paths);
 		
+		String test = "hej";
 		tmpTrainRouteTests tmpTests = new tmpTrainRouteTests();
 		
 		for(String routeName : routeList.keySet()){
