@@ -5,33 +5,13 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class RouteParser {
-
-	//private HashMap<Character, trTrackModel> route;
-	private HashMap<String, ArrayList<trTrackModel>> routeList;
-	public static void main(String args[]){
-		RouteParser rp = new RouteParser();
-		
-		rp.run();
-	}
 	
-	public void run(){
-		System.out.println("START");
-		//route = new HashMap<Character, trTrackModel>();
-		routeList = new HashMap<String, ArrayList<trTrackModel>>();
-		
-		String[] paths = {"testRoute1.txt"};
-		readRouteSpecifications(paths);
-		
-		for(String routeName : this.routeList.keySet()){
-			isRouteValid(routeList.get(routeName));
-		}
-	}
-	
-	public void readRouteSpecifications(String[] filePaths){
+	public HashMap<String, ArrayList<trTrackModel>> readRouteSpecifications(String[] filePaths){
 		int counter = 1;
+		
+		HashMap<String, ArrayList<trTrackModel>> routeList = new HashMap<String, ArrayList<trTrackModel>>();
 		
 		for(String fPath : filePaths){
 			String routeName = "NoName_" + counter;
@@ -109,60 +89,10 @@ public class RouteParser {
 				e.printStackTrace();;
 			}	
 			
-			this.routeList.put(routeName, route);
+			routeList.put(routeName, route);
 			counter++;
 		}
-
-	}
-	
-	public boolean isRouteValid(ArrayList<trTrackModel> route){
-		for (trTrackModel track : route){
-			System.out.println("Id: " + track.getId() + " - Stop: " + track.getIsStop());
-		}
-		boolean trueTracks = tracksExistInNetwork(route);
-		boolean isLinked = isRouteLinked(route);
-		boolean has2EndTracks = hasTwoEnds(route);
-		boolean noDuplicates = noDuplicateTracks(route);
 		
-		return trueTracks & isLinked & has2EndTracks & noDuplicates;
-	}
-	
-	public boolean tracksExistInNetwork(ArrayList<trTrackModel> route){
-		/**
-		 * here it needs to be verified that all the tracks in the route exist in the  network.
-		 */
-		return true;
-	}
-
-	public boolean isRouteLinked(ArrayList<trTrackModel> route){
-		/**
-		 * here it needs to be verified that the connection in the route exist in the network
-		 * and that no jumps are performed.
-		 */
-		return true;
-	}
-	
-	public boolean hasTwoEnds(ArrayList<trTrackModel> route){
-		/**
-		 * here it needs to be verified that the first and last track in the route is also
-		 * connected to another track or an end track. If it leads to another track it does
-		 * not need to be part of the route.
-		 */
-		return true;
-	}
-	
-	public boolean noDuplicateTracks(ArrayList<trTrackModel> route){
-		
-		ArrayList<Character> ids = new ArrayList<Character>();
-		
-		for (trTrackModel track : route){
-			if (ids.contains(track.getId())){
-				return false;
-			}
-			else{
-				ids.add(track.getId());
-			}
-		}
-		return true;
+		return routeList;
 	}
 }
