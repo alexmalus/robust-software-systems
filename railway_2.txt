@@ -1,0 +1,16 @@
+#TEST
+#STAT Hellerup h
+#station name should be of type characters.
+STAT 2 h
+STAT Lyngby l
+STAT Klampenborg k
+#either station name in a CONN should be of type characters.
+CONN h 2
+#CONN h b
+CONN b k
+CONN b l
+END k
+END h
+#endpoint name should be of type characters
+#END l
+END 2

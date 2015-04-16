@@ -1,0 +1,12 @@
+#TEST
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+CONN h b
+CONN b k
+CONN b l
+END k
+END h
+END l
+#an end station which is not a station
+END x
