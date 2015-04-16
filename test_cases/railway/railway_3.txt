@@ -1,0 +1,13 @@
+#TEST
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+#in a connection, we should have two valid stations which were defined above.
+#the station names must be different
+CONN h h
+#CONN h b
+CONN b k
+CONN b l
+END k
+END h
+END l

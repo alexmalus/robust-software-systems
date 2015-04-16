@@ -1,0 +1,14 @@
+STAT Hellerup h
+STAT Gentofte g
+STAT Sorgenfri s
+STAT Klampenborg k
+STAT Lyngby l
+CONN h g
+CONN g x
+CONN x l
+CONN x s
+CONN s z
+CONN z k
+CONN z l
+END k
+END h
