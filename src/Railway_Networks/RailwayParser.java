@@ -22,14 +22,15 @@ public class RailwayParser {
 	// STATION CHECKLIST!
 	// - Can either have two connections or one ending and one connection
 	// - Needs an end
-	//
+	// - Only one end per 
 	// CONNECTION CHECKLIST
-	// - If no station has defined with ID
+	// - If no station has been defined with an ID
 	//
 	//
 	//
 	private int errorCounter = 0;
-	public void Run(String filepath) {
+
+	public HashMap<String, Segment> Run(String filepath) {
 		{
 			try {
 				File file = new File(filepath);
@@ -37,7 +38,7 @@ public class RailwayParser {
 				if (!file.exists()) {
 					System.err.println("ERROR: '" + filepath
 							+ "' doesn't exist!");
-					return;
+					return null;
 				}
 
 				Scanner scan = new Scanner(file);
@@ -85,7 +86,15 @@ public class RailwayParser {
 						+ segments.get(key).getConnections());
 			}
 		}
-		System.out.println(errorCounter == 0 ? "No errors found" : errorCounter == 1 ? errorCounter + " error found" : errorCounter + " errors found.");
+		System.out.println(errorCounter == 0 ? "No errors found"
+				: errorCounter == 1 ? errorCounter + " error found"
+						: errorCounter + " errors found.");
+		Inspector();
+		for (String key : segments.keySet()) {
+			if(segments.get(key).getComments().size() > 0)
+				System.out.println(segments.get(key).getComments());
+		}
+		return segments;
 	}
 
 	public void CheckStation(String[] lineSplit) {
@@ -155,14 +164,42 @@ public class RailwayParser {
 		}
 	}
 
-	public void printErrorMessage(String msg){
+	public void printErrorMessage(String msg) {
 		System.out.print(msg);
 		errorCounter++;
 	}
-	
+
 	public boolean checkIfConnectionExists() {
 
 		return true;
 	}
 
+	public void Inspector() {
+		for (String key : segments.keySet()) {
+			switch (segments.get(key).getType()) {
+			case "STAT":
+				InspectStation(key);
+				break;
+			case "CONN":
+				InspectConnection(key);
+				break;
+			}
+		}
+	}
+
+	public boolean InspectStation(String key) {
+		if (segments.get(key).getConnectionLength() < 2)
+			segments.get(key).addComment("ERROR: Too few conncetions");
+		if (segments.get(key).getConnectionLength() > 2)
+			segments.get(key).addComment("ERROR: Too many conncetions");
+		// if(!segments.get(key).getConnections().contains("END"))
+
+		return true;
+	}
+
+	public boolean InspectConnection(String key) {
+		if (segments.get(key).getConnectionLength() < 2)
+			segments.get(key).addComment("ERROR: Too few conncetions");
+		return true;
+	}
 }
