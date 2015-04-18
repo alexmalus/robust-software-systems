@@ -1,0 +1,14 @@
+#TEST
+STAT Hellerup h
+STAT Lyngby l
+STAT Klampenborg k
+#in DefaultProject.pdf, teacher said the following:
+#"Each station must have two connections to it, either specified by CONN or by END."
+#in this example, h has just one connection specified by CONN
+#we need to raise something like:
+#"Track points that do not connect to other track points must be covered by an end"
+CONN h b
+CONN b k
+CONN b l
+END k
+END l
