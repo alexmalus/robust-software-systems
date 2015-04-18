@@ -18,7 +18,7 @@ public class RouteParser {
 			
 			ArrayList<trTrackModel> route = new ArrayList<trTrackModel>();
 			ArrayList<Exception> errors = new ArrayList<Exception>();
-			ArrayList<TrainRouteCommentObj> comments = new ArrayList<TrainRouteCommentObj>();
+			ArrayList<trCommentModel> comments = new ArrayList<trCommentModel>();
 			
 			try{
 				File f = new File(fPath);
@@ -83,7 +83,7 @@ public class RouteParser {
 							}
 						}
 						else if (line.startsWith("#")){
-							comments.add(new TrainRouteCommentObj(fPath, lineNr, line));
+							comments.add(new trCommentModel(fPath, lineNr, line));
 //							System.out.println("COMMENT: " + line);
 						}
 						else{

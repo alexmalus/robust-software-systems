@@ -7,9 +7,9 @@ public class trRouteModel {
 	private String name;
 	private ArrayList<trTrackModel> route;
 	private ArrayList<Exception> errors;
-	private ArrayList<TrainRouteCommentObj> comments;
+	private ArrayList<trCommentModel> comments;
 	
-	public trRouteModel(String name, ArrayList<trTrackModel> route, ArrayList<Exception> errors, ArrayList<TrainRouteCommentObj> comments){
+	public trRouteModel(String name, ArrayList<trTrackModel> route, ArrayList<Exception> errors, ArrayList<trCommentModel> comments){
 		this.name = name;
 		this.route = route;
 		this.errors = errors;
@@ -28,7 +28,7 @@ public class trRouteModel {
 		return this.errors;
 	}
 	
-	public ArrayList<TrainRouteCommentObj> getComments(){
+	public ArrayList<trCommentModel> getComments(){
 		return this.comments;
 	}
 }
