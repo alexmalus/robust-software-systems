@@ -4,19 +4,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
-import java.util.Iterator;
-import java.util.Map;
 
 public class RailwayParser {
-/*TODO
- * validate input using regex
- * a segment cannot be connected to itself e.g. CONN h h
- * make comment about invalid lines, sukkah! Such as lines that are not comments. PT they are being ignored.
- * check for duplicate stations and end points.
- * Do we allow two isolated systems not connected to eachother? Shouldn't all stations connect to every other?
- */
-	
-	
+	/*
+	 * TODO validate input using regex a segment cannot be connected to itself
+	 * e.g. CONN h h make comment about invalid lines, sukkah! Such as lines
+	 * that are not comments. PT they are being ignored. check for duplicate
+	 * stations and end points. Do we allow two isolated systems not connected
+	 * to eachother? Shouldn't all stations connect to every other?
+	 */
+
 	// HashMap stations = new HashMap<String, Segment>();
 	// HashMap connections = new HashMap<String, String>();
 	// HashMap endings = new HashMap<String, String>();
@@ -30,7 +27,7 @@ public class RailwayParser {
 	// STATION CHECKLIST!
 	// - Can either have two connections or one ending and one connection
 	// - Needs an end
-	// - Only one end per 
+	// - Only one end per
 	// CONNECTION CHECKLIST
 	// - If no station has been defined with an ID
 	//
@@ -42,7 +39,7 @@ public class RailwayParser {
 		{
 			try {
 				File file = new File(filepath);
-				
+
 				if (!file.exists()) {
 					System.err.println("ERROR: '" + filepath
 							+ "' doesn't exist!");
@@ -72,14 +69,13 @@ public class RailwayParser {
 						} else if ("CONN".equals(words[0])) {
 							CheckConnection(words);
 						}
-					}
-
-					else if (words.length == 2) {
+					} else if (words.length == 2) {
 						if ("END".equals(words[0])) {
 							CheckEnd(words);
 						}
-					} else
+					} else {
 						printErrorMessage("Invalid line!");
+					}
 
 					++lineNumber;
 					System.out.println();
@@ -94,18 +90,20 @@ public class RailwayParser {
 						+ segments.get(key).getConnections());
 			}
 		}
+
 		Inspector();
+
 		for (String key : segments.keySet()) {
-			if(segments.get(key).getComments().size() > 0)
+			if (segments.get(key).getComments().size() > 0)
 				System.out.println(segments.get(key).getComments());
 		}
-		if (segments.size() == 0){
+		if (segments.size() == 0) {
 			errorCounter++;
 			System.out.println("File is empty or contains no valid lines");
 		}
 		System.out.println(errorCounter == 0 ? "No errors found"
 				: errorCounter == 1 ? errorCounter + " error found"
-						: errorCounter + " errors found.");		
+						: errorCounter + " errors found.");
 		return segments;
 	}
 
@@ -174,8 +172,7 @@ public class RailwayParser {
 			} else
 				segments.get(word[1]).addConnection("END");
 			System.out.print("Found ENDING (added: " + word[1] + ")");
-		}else
-		{
+		} else {
 			System.out.println("Segment " + word[1] + " does not exist.");
 			errorCounter++;
 		}
@@ -205,11 +202,13 @@ public class RailwayParser {
 	}
 
 	public boolean InspectStation(String key) {
-		if (segments.get(key).getConnectionLength() < 2){
-			segments.get(key).addComment("ERROR: Too few conncetions");			
+		//too few connections
+		if (segments.get(key).getConnectionLength() < 2) {
+			segments.get(key).addComment("ERROR: Too few conncetions");
 			errorCounter++;
 		}
-		if (segments.get(key).getConnectionLength() > 2){
+		//too many connections
+		if (segments.get(key).getConnectionLength() > 2) {
 			errorCounter++;
 			segments.get(key).addComment("ERROR: Too many conncetions");
 		}
@@ -219,11 +218,11 @@ public class RailwayParser {
 	}
 
 	public boolean InspectConnection(String key) {
-		if (segments.get(key).getConnectionLength() < 2){
+		if (segments.get(key).getConnectionLength() < 2) {
 			segments.get(key).addComment("ERROR: Too few conncetions");
 			errorCounter++;
 		}
-		if (segments.get(key).getConnectionLength() < 2){
+		if (segments.get(key).getConnectionLength() < 2) {
 			segments.get(key).addComment("ERROR: Too few conncetions");
 			errorCounter++;
 		}

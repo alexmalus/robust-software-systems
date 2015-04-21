@@ -13,8 +13,10 @@ public class Main {
 			System.out.println("########################################################################################\n");
 			System.out.println("PROCESSING railway_"+i+".txt");
 			new RailwayParser().Run("railway_"+i+".txt");
+			System.out.println("Press ENTER");
 			s.nextLine();
 		}
+		System.out.println("done.");
 		s.close();
 		
 		//rp.Run("test_cases\\railway\\railway_1.txt");
