@@ -152,14 +152,6 @@ public class RailwayParser {
 			segments.put(word[2], new Segment(word[0]));
 			segments.get(word[2]).addConnection(word[1]);
 		}
-
-		// if (segments.containsKey(lineSplit[1])) {
-		// segments.get(lineSplit[1]).addConnection(lineSplit[2]);
-		// System.out.print(" (added: " + lineSplit[2] + ")");
-		// } else {
-		// segments.put(lineSplit[1], new Segment(lineSplit[0]));
-		// segments.get(lineSplit[1]).addConnection(lineSplit[2]);
-		// }
 	}
 
 	// Just pass word[1] instead of entire array.
@@ -169,6 +161,7 @@ public class RailwayParser {
 		// as they are called.
 		if (segments.containsKey(word[1])) {
 			if (segments.get(word[1]).getSize() > 1) {
+//				throw new RailwayException("","","","");
 				printErrorMessage("ERROR (" + lineNumber + ")");
 				return;
 			} else
