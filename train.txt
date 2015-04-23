@@ -1,5 +1,5 @@
 #This is a comment
-STAT Hellerup h
+STAT Brøndby h
 STAT Lyngby l
 STAT Klampenborg k
 CONN h b
