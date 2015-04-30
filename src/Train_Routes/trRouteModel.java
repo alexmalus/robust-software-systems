@@ -2,6 +2,11 @@ package Train_Routes;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Esbern Andersen-Hoppe s093484
+ *
+ */
 public class trRouteModel {
 
 	private String name;

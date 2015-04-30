@@ -6,6 +6,11 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * 
+ * @author Esbern Andersen-Hoppe s093484
+ *
+ */
 public class RouteParser {
 	
 	public HashMap<String, trRouteModel> readRouteSpecifications(String[] filePaths){
