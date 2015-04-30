@@ -14,19 +14,10 @@ public class RailwayParser {
 	 * stations and end points. Do we allow two isolated systems not connected
 	 * to eachother? Shouldn't all stations connect to every other?
 	 */
-<<<<<<< HEAD
-
-	// HashMap stations = new HashMap<String, Segment>();
-	// HashMap connections = new HashMap<String, String>();
-	// HashMap endings = new HashMap<String, String>();
-=======
->>>>>>> 6055e06b4e8731f27538bbeffaf99b07cde4c7f4
 
 	private int lineNumber = 1;
 	HashMap<String, Segment> segments = new HashMap<String, Segment>();
 	ArrayList<String> errorList = new ArrayList<String>();
-	// HashMap<String, Segment> segments = new HashMap<String, Segment>();
-	// HashMap<String, Segment> segments = new HashMap<String, Segment>();
 
 	// STATION CHECKLIST!
 	// - Can either have two connections or one ending and one connection
@@ -38,82 +29,70 @@ public class RailwayParser {
 	private int errorCounter = 0;
 
 	public HashMap<String, Segment> Run(String filepath) {
-		{
-			try {
-				File file = new File(filepath);
+		try {
+			File file = new File(filepath);
 
-				if (!file.exists()) {
-					System.err.println("ERROR: '" + filepath
-							+ "' doesn't exist!");
-					return null;
-				}
-
-				Scanner scan = new Scanner(file);
-				while (scan.hasNextLine()) {
-
-					String line = scan.nextLine();
-
-					// Removes unnecessary white spaces and leading and trailing
-					// spaces.
-					line = line.replaceAll("\\s+", " ").trim();
-
-					// Allow comments in text file
-					if ("#".equals(line.substring(0, 1))) {
-						// line is a comment.
-						++lineNumber;
-						continue; // skip to next iteration
-					}
-
-					String[] words = line.split(" ");
-
-					if (line.startsWith("STAT")) {
-						if (words.length == 3) {
-							CheckStation(words);
-						} else if (words.length > 3){
-							printErrorMessage("Line has too many tokens. Stations requires three tokens (STAT, station_name, ID)");
-						} else if (words.length < 3){
-							printErrorMessage("Line has too few tokens. Stations requires three tokens (STAT, station_name, ID)");
-						}
-					} else if (line.startsWith("CONN")) {
-						if (words.length == 3) {
-							CheckConnection(words);
-						} else if (words.length > 3){
-							printErrorMessage("Line has too many tokens. Connections requires three tokens (CONN, station_name, ID)");
-						} else if (words.length < 3){
-							printErrorMessage("Line has too few tokens. Connections requires three tokens (CONN, station_name, ID)");
-						}
-<<<<<<< HEAD
-					} else if (words.length == 2) {
-						if ("END".equals(words[0])) {
-=======
-					} else if(line.startsWith("END")){
-						if (words.length == 2) {
->>>>>>> 6055e06b4e8731f27538bbeffaf99b07cde4c7f4
-							CheckEnd(words);
-						} else if (words.length > 2){
-							printErrorMessage("Line has too many tokens. Endings requires two tokens (CONN, ID)");
-						} else if (words.length < 2){
-							printErrorMessage("Line has too few tokens. Endings requires two tokens (END, ID)");
-						}
-<<<<<<< HEAD
-					} else {
-						printErrorMessage("Invalid line!");
-					}
-
-=======
-					}
->>>>>>> 6055e06b4e8731f27538bbeffaf99b07cde4c7f4
-					++lineNumber;
-					System.out.println();
-				}
-				scan.close();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} 
-			for (String key : segments.keySet()) {
-				System.out.println(key + " "
-						+ segments.get(key).getConnections());
+			if (!file.exists()) {
+				System.err.println("ERROR: '" + filepath + "' doesn't exist!");
+				return null;
 			}
+
+			Scanner scan = new Scanner(file);
+			while (scan.hasNextLine()) {
+
+				String line = scan.nextLine();
+
+				// Removes unnecessary white spaces and leading and trailing
+				// spaces.
+				line = line.replaceAll("\\s+", " ").trim();
+
+				// Allow comments in text file
+				if ("#".equals(line.substring(0, 1))) {
+					// line is a comment.
+					++lineNumber;
+					continue; // skip to next iteration
+				}
+
+				String[] words = line.split(" ");
+
+				if (line.startsWith("STAT")) {
+					if (words.length == 3) {
+						CheckStation(words);
+					} else if (words.length > 3) {
+						printErrorMessage("Line has too many tokens. Stations requires three tokens (STAT, station_name, ID)");
+					} else if (words.length < 3) {
+						printErrorMessage("Line has too few tokens. Stations requires three tokens (STAT, station_name, ID)");
+					}
+				} else if (line.startsWith("CONN")) {
+					if (words.length == 3) {
+						CheckConnection(words);
+					} else if (words.length > 3) {
+						printErrorMessage("Line has too many tokens. Connections requires three tokens (CONN, station_name, ID)");
+					} else if (words.length < 3) {
+						printErrorMessage("Line has too few tokens. Connections requires three tokens (CONN, station_name, ID)");
+					}
+
+				} else if (line.startsWith("END")) {
+					if (words.length == 2) {
+						CheckEnd(words);
+					} else if (words.length > 2) {
+						printErrorMessage("Line has too many tokens. Endings requires two tokens (CONN, ID)");
+					} else if (words.length < 2) {
+						printErrorMessage("Line has too few tokens. Endings requires two tokens (END, ID)");
+					}
+				} else {
+					printErrorMessage("Invalid line!");
+				}
+
+				++lineNumber;
+				System.out.println();
+			}
+			scan.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		for (String key : segments.keySet()) {
+			System.out.println(key + " " + segments.get(key).getConnections());
 		}
 
 		Inspector();
@@ -126,10 +105,10 @@ public class RailwayParser {
 			errorCounter++;
 			System.out.println("File is empty or contains no valid lines");
 		}
-		
+
 		printErrorList();
 
-		System.out.println(errorCounter == 0 ? "No errors found"
+		System.out.println(errorCounter != 0 ? "No errors found"
 				: errorCounter == 1 ? errorCounter + " error found"
 						: errorCounter + " errors found.");
 		return segments;
@@ -138,12 +117,12 @@ public class RailwayParser {
 	public void CheckStation(String[] word) {
 		System.out.print("Found STATION  (" + word[1] + ") = " + word[2]);
 
-		if(!word[1].matches("^[a-zA-Z0-9æøåÆØÅ@]+$")){
+		if (!word[1].matches("^[a-zA-Z0-9Ã†Ã¦Ã˜Ã¸Ã…Ã¥]+$")) {
 			printErrorMessage("Station name includes invalid characters");
 		}
 
 		// Verify both length (length == 1?) and that it is a valid character
-		if(word[2].length() > 1){
+		if (word[2].length() > 1) {
 			printErrorMessage("Station ID should only use one character");
 		}
 		segments.put(word[2], new Segment(word[0]));
@@ -165,8 +144,9 @@ public class RailwayParser {
 			if (!"STAT".equals(segments.get(word[1]).getType())
 					&& segments.get(word[1]).getSize() > 2) {
 				printErrorMessage("ERROR: too many connections for this station!");
-			} else
+			} else {
 				segments.get(word[1]).addConnection(word[2]);
+			}
 		} else {
 			segments.put(word[1], new Segment(word[0]));
 			segments.get(word[1]).addConnection(word[2]);
@@ -200,20 +180,19 @@ public class RailwayParser {
 	}
 
 	public void printErrorMessage(String msg) {
-		errorList.add(msg + " (at line: " +lineNumber + ")");
-//		System.out.print(msg + " (at line: " +lineNumber + ")");
+		errorList.add(msg + " (at line: " + lineNumber + ")");
+		// System.out.print(msg + " (at line: " +lineNumber + ")");
 		errorCounter++;
 	}
-	
-	public void printErrorList(){
+
+	public void printErrorList() {
 		System.out.println("Syntax errors: ");
-		for(String s : errorList){
+		for (String s : errorList) {
 			System.out.println(s);
 		}
 	}
 
 	public boolean checkIfConnectionExists() {
-
 		return true;
 	}
 
@@ -231,18 +210,14 @@ public class RailwayParser {
 	}
 
 	public boolean InspectStation(String key) {
-<<<<<<< HEAD
-		//too few connections
-=======
->>>>>>> 6055e06b4e8731f27538bbeffaf99b07cde4c7f4
+		// too few connections
+
 		if (segments.get(key).getConnectionLength() < 2) {
 			segments.get(key).addComment("ERROR: Too few conncetions");
 			errorCounter++;
 		}
-<<<<<<< HEAD
-		//too many connections
-=======
->>>>>>> 6055e06b4e8731f27538bbeffaf99b07cde4c7f4
+
+		// too many connections
 		if (segments.get(key).getConnectionLength() > 2) {
 			errorCounter++;
 			segments.get(key).addComment("ERROR: Too many conncetions");
@@ -257,8 +232,8 @@ public class RailwayParser {
 			segments.get(key).addComment("ERROR: Too few conncetions");
 			errorCounter++;
 		}
-		if (segments.get(key).getConnectionLength() < 2) {
-			segments.get(key).addComment("ERROR: Too few conncetions");
+		if (segments.get(key).getConnectionLength() > 3) {
+			segments.get(key).addComment("ERROR: Too many conncetions");
 			errorCounter++;
 		}
 		return true;

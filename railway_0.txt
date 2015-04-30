@@ -1,5 +1,5 @@
 #TEST
-STAT Hellerup h
+STAT Nørreport h
 STAT Lyngby l
 STAT Klampenborg k
 CONN h b
