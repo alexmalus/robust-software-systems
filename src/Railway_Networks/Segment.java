@@ -24,7 +24,7 @@ public class Segment {
 	public String getConnections(){
 		return connections.toString();
 	}
-		
+	
 	public int getConnectionLength(){
 		return connections.size();
 	}
