@@ -1,4 +1,4 @@
-STAT Hellerup h
+STAT Helleræøup h
 STAT Gentofte g
 STAT Sorgenfri s
 STAT Klampenborg k

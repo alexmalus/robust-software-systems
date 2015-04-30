@@ -13,10 +13,10 @@ public class TrainRouteRunner {
 		HashMap<String, trRouteModel> routeList = rp.readRouteSpecifications(paths);
 		
 		String test = "hej";
-		tmpTrainRouteTests tmpTests = new tmpTrainRouteTests();
+		TrainRouteValidation tmpTests = new TrainRouteValidation();
 		
 		for(String routeName : routeList.keySet()){
-			tmpTests.isRouteValid(routeList.get(routeName));
+			//tmpTests.isRouteValid(routeList.get(routeName));
 		}
 	}
 }
