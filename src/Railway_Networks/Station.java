@@ -1,13 +1,13 @@
 package Railway_Networks;
 
-public class Stations {
+public class Station {
 
 	private boolean hasEnding;
 	private String name;
 	private String ID;
 	private String end;
 	
-	public Stations(String name, String ID){
+	public Station(String name, String ID){
 		this.name = name;
 		this.ID = ID;
 	}
