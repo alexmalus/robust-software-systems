@@ -190,6 +190,16 @@ public class RailwayParser {
 			System.out.println(s);
 		}
 	}
+	
+	int get_error_counter()
+	{
+		return errorCounter;
+	}
+	
+	int get_line_number()
+	{
+		return lineNumber;
+	}
 
 //	public boolean checkIfConnectionExists() {
 //		return true;

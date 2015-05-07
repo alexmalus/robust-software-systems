@@ -19,4 +19,19 @@ public class Station {
 		}
 		return false;
 	}
+	
+	String get_name()
+	{
+		return name;
+	}
+	
+	String get_ID()
+	{
+		return ID;
+	}
+	
+	String get_end()
+	{
+		return end;
+	}
 }

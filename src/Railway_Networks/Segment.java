@@ -29,6 +29,7 @@ public class Segment {
 		return connections.size();
 	}
 	
+	//same as getConnectionLength?
 	public int getSize(){
 		return connections.size();
 	}
