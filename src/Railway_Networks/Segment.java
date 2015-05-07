@@ -25,12 +25,11 @@ public class Segment {
 		return connections.toString();
 	}
 	
-	public int getConnectionLength(){
-		return connections.size();
+	public ArrayList<String> getConnectionsArray(){
+		return connections;
 	}
 	
-	//same as getConnectionLength?
-	public int getSize(){
+	public int getConnectionLength(){
 		return connections.size();
 	}
 	
