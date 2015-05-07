@@ -7,5 +7,6 @@ CONN b k
 CONN b l
 END k
 END h
-#missing one END point. We should trigger error here
+#error is to be thrown if l, the station, does not have 2 connections
+#or 1 connection and a definition of it being and END station
 # END l
