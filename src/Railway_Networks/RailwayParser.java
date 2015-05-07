@@ -15,18 +15,11 @@ public class RailwayParser {
 	 * to eachother? Shouldn't all stations connect to every other?
 	 */
 
+	public static int errorCounter = 0;
+
 	private int lineNumber = 1;
-	HashMap<String, Segment> segments = new HashMap<String, Segment>();
+    HashMap<String, Segment> segments = new HashMap<String, Segment>();
 	ArrayList<String> errorList = new ArrayList<String>();
-
-	// STATION CHECKLIST!
-	// - Can either have two connections or one ending and one connection
-	// - Needs an end
-	// - Only one end per
-	// CONNECTION CHECKLIST
-	// - If no station has been defined with an ID
-
-	private int errorCounter = 0;
 
 	public HashMap<String, Segment> Run(String filepath) {
 		try {
@@ -73,7 +66,7 @@ public class RailwayParser {
 
 				} else if (line.startsWith("END")) {
 					if (words.length == 2) {
-						CheckEnd(words);
+						CheckEnd(words[1]);
 					} else if (words.length > 2) {
 						printErrorMessage("Line has too many tokens. Endings requires two tokens (CONN, ID)");
 					} else if (words.length < 2) {
@@ -94,20 +87,18 @@ public class RailwayParser {
 			System.out.println(key + " " + segments.get(key).getConnections());
 		}
 
-//		Inspector();
-
+		// Check semantic errors
 		for (String key : segments.keySet()) {
 			if (segments.get(key).getComments().size() > 0)
 				System.out.println(segments.get(key).getComments());
 		}
 		if (segments.size() == 0) {
-			errorCounter++;
-			System.out.println("File is empty or contains no valid lines");
+			printErrorMessage("File is empty or contains no valid lines");
 		}
 
 		printErrorList();
 
-		System.out.println(errorCounter != 0 ? "No errors found"
+		System.out.println(errorCounter == 0 ? "No errors found"
 				: errorCounter == 1 ? errorCounter + " error found"
 						: errorCounter + " errors found.");
 		return segments;
@@ -118,11 +109,16 @@ public class RailwayParser {
 
 		if (!word[1].matches("^[a-zA-Z0-9ÆæØøÅå]+$")) {
 			printErrorMessage("Station name includes invalid characters");
+			return;
 		}
 
-		// Verify both length (length == 1?) and that it is a valid character
 		if (word[2].length() > 1) {
 			printErrorMessage("Station ID should only use one character");
+			return;
+		}
+		if (!word[2].matches("^[a-zA-Z0-9]+$")) {
+			printErrorMessage("Station ID uses an invalid character (letters or alphabetic characters)");
+			return;
 		}
 		segments.put(word[2], new Segment(word[0]));
 	}
@@ -139,9 +135,17 @@ public class RailwayParser {
 		System.out.print(" (" + word[1] + ")");
 		System.out.print(" (" + word[2] + ")");
 
+		if (!word[1].matches("^[a-zA-Z0-9]+$")) {
+			printErrorMessage("First connection ID uses an invalid character (letters or alphabetic characters)");
+			return;
+		} else if (!word[2].matches("^[a-zA-Z0-9]+$")) {
+			printErrorMessage("Second connection ID uses an invalid character (letters or alphabetic characters)");
+			return;
+		}
+
 		if (segments.containsKey(word[1])) {
 			if (!"STAT".equals(segments.get(word[1]).getType())
-					&& segments.get(word[1]).getSize() > 2) {
+					&& segments.get(word[1]).getConnectionLength() > 2) {
 				printErrorMessage("ERROR: too many connections for this station!");
 			} else {
 				segments.get(word[1]).addConnection(word[2]);
@@ -159,28 +163,27 @@ public class RailwayParser {
 		}
 	}
 
-	// Just pass word[1] instead of entire array.
-	public void CheckEnd(String[] word) {
+	public void CheckEnd(String word) {
 		// Check that all connections with only one connections
 		// have an end-point - otherwise, throw a hissy fit! ... or an exception
 		// as they are called.
-		if (segments.containsKey(word[1])) {
-			if (segments.get(word[1]).getSize() > 1) {
-				// throw new RailwayException("","","","");
-				printErrorMessage("ERROR: A segment can only contain one end point ");
+		if (segments.containsKey(word)) {
+			if (segments.get(word).getConnectionLength() > 1) {
+				printErrorMessage("ERROR: contains too many connections already");
 				return;
+			} else if (segments.get(word).getConnections().contains("END")){
+				printErrorMessage("ERROR: already contains an ending");
+				return;				
 			} else
-				segments.get(word[1]).addConnection("END");
-			System.out.print("Found ENDING (added: " + word[1] + ")");
+				segments.get(word).addConnection("END");
+			System.out.print("Found ENDING (added: " + word + ")");
 		} else {
-			System.out.println("Segment " + word[1] + " does not exist.");
-			errorCounter++;
+			printErrorMessage("Segment " + word + " does not exist.");
 		}
 	}
 
 	public void printErrorMessage(String msg) {
 		errorList.add(msg + " (at line: " + lineNumber + ")");
-		// System.out.print(msg + " (at line: " +lineNumber + ")");
 		errorCounter++;
 	}
 
