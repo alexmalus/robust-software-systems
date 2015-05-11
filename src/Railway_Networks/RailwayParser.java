@@ -42,7 +42,7 @@ public class RailwayParser {
 				if ("#".equals(line.substring(0, 1))) {
 					// line is a comment.
 					++lineNumber;
-					continue; // skip to next iteration
+					continue; // skip to next iteration of while loop
 				}
 
 				String[] words = line.split(" ");
@@ -144,6 +144,8 @@ public class RailwayParser {
 		}
 
 		if (segments.containsKey(word[1])) {
+			
+			//if not a station??
 			if (!"STAT".equals(segments.get(word[1]).getType())
 					&& segments.get(word[1]).getConnectionLength() > 2) {
 				printErrorMessage("ERROR: too many connections for this station!");
