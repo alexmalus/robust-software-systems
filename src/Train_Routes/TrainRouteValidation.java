@@ -130,6 +130,7 @@ public class TrainRouteValidation {
 	
 	public boolean stopsAtStations(trRouteModel route, HashMap<String, Segment> network) throws TrainRouteValidationException{
 		ArrayList<Character> stationIds = new ArrayList<Character>();
+		int numberOfStops = 0;
 		
 		for (String str : network.keySet()){
 			if (network.get(str).getType().equals("STAT")){
@@ -137,16 +138,17 @@ public class TrainRouteValidation {
 			}
 		}
 		
-		boolean check = false;
+		//boolean check = false;
 		
 		for (trTrackModel track : route.getRoute()){
 			if (track.getIsStop() == true && stationIds.contains(track.getId())){
-				check = true;
+				//check = true;
+				numberOfStops++;
 			}
 		}
 		
-		if (check == false){
-			throw new TrainRouteValidationException("The train route '" + route.getName() + "' does not stop at any stations.");
+		if (numberOfStops < 2){
+			throw new TrainRouteValidationException("The train route '" + route.getName() + "' stops at less than 2 stations.");
 		}
 		
 		return true;
