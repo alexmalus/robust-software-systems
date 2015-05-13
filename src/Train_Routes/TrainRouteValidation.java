@@ -57,7 +57,6 @@ public class TrainRouteValidation {
 		/**
 		 * here it needs to be verified that the connections in the route exist in the network
 		 * and that no jumps are performed.
-		 * TODO: check that connections are correct (Especially with switch tracks).
 		 */
 		boolean error = false;
 		boolean first = true;
