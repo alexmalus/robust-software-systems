@@ -1,5 +1,6 @@
 #TEST
 STAT Hellerup h
+STAT Station l
 STAT Lyngby l
 STAT Klampenborg k
 #in a connection, we should have two valid stations which were defined above.
@@ -9,5 +10,5 @@ CONN h h
 CONN b k
 CONN b l
 END k
-END h
+#END h
 END l

@@ -5,8 +5,8 @@ import java.util.HashMap;
 public class RailwayValidation {
 
 	HashMap<String, Segment> segments;
-	
-	public RailwayValidation(HashMap<String, Segment> segments){
+
+	public RailwayValidation(HashMap<String, Segment> segments) {
 		this.segments = segments;
 	}
 
@@ -20,42 +20,58 @@ public class RailwayValidation {
 			case "CONN":
 				InspectConnection(key);
 				break;
+			default:
+				segments.get(key).addComment("ERROR: " + key + " has invalid type");
+				break;
 			}
 		}
 	}
 
 	public boolean InspectStation(String key) {
+		// A segment cannot be connected to itself 
+		if (segments.get(key).getConnections().contains(key)) {
+			segments.get(key).addComment(
+					"ERROR: " + key + " contains ID as connection");
+			RailwayParser.errorCounter++;
+		}
+
 		if (segments.get(key).getConnectionLength() < 2) {
-			segments.get(key).addComment("ERROR: " + key + " has too few conncetions");
-//			errorCounter++;
+			segments.get(key).addComment(
+					"ERROR: " + key + " has too few conncetions");
+			RailwayParser.errorCounter++;
 		}
 
 		if (segments.get(key).getConnectionLength() > 2) {
-//			errorCounter++;
-			segments.get(key).addComment("ERROR: " + key + " has too many conncetions");
+			RailwayParser.errorCounter++;
+			segments.get(key).addComment(
+					"ERROR: " + key + " has too many conncetions");
 		}
-		// contains more than one end point
-//		if(!segments.get(key).getConnections().toLowerCase().contains("end")){
-//			
-//		}
 		return true;
 	}
 
 	public boolean InspectConnection(String key) {
 		if (segments.get(key).getConnectionLength() < 2) {
-			segments.get(key).addComment("ERROR: " + key + " has too few conncetions");
-//			errorCounter++;
+			segments.get(key).addComment(
+					"ERROR: " + key + " has too few conncetions");
+			RailwayParser.errorCounter++;
 		}
 		if (segments.get(key).getConnectionLength() > 3) {
-			segments.get(key).addComment("ERROR: " + key + " has too many conncetions");
-//			errorCounter++;
+			segments.get(key).addComment(
+					"ERROR: " + key + " has too many conncetions");
+			RailwayParser.errorCounter++;
 		}
 		// Threeway split containing an end point
-		if (segments.get(key).getConnectionLength() == 3 && segments.get(key).getConnections().toLowerCase().contains("end")) {
-			segments.get(key).addComment("ERROR: " + key + " is a threeway connection and cannot contain an end point");
-//			errorCounter++;
+		if (segments.get(key).getConnectionLength() == 3
+				&& segments.get(key).getConnections().toLowerCase()
+						.contains("end")) {
+			segments.get(key)
+					.addComment(
+							"ERROR: "
+									+ key
+									+ " is a threeway connection and cannot contain an end point");
+			RailwayParser.errorCounter++;
 		}
 		return true;
 	}
-	
+
 }

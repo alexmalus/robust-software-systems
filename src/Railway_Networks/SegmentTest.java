@@ -2,6 +2,7 @@ package Railway_Networks;
 
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.instanceOf;
+
 import org.junit.Test;
 
 public class SegmentTest {
@@ -27,8 +28,8 @@ public class SegmentTest {
 	@Test
 	public void testGetSize() {
 		Segment segment = new Segment("segment_test");
-		assertEquals("should be zero", segment.getSize() , 0);
-		assertThat(segment.getSize(), instanceOf(Integer.class));
+		assertEquals("should be zero", segment.getConnectionLength() , 0);
+		assertThat(segment.getConnectionLength(), instanceOf(Integer.class));
 	}
 
 	@Test
