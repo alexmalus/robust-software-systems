@@ -84,6 +84,19 @@ public class TrainRouteValidation {
 					error = true;
 				}
 				
+				if (tmpSegment.getConnections().length() == 3){
+					if (tmpSegment.getConnections().indexOf(currentTRTM.getId()) > 0 && tmpSegment.getConnections().indexOf(previousTRTM.getId()) > 0){
+						if (firstError == true){
+							trackConnListStr += previousTRTM.getId() + "-" + currentTRTM.getId();
+						}
+						else{
+							trackConnListStr += ", " + previousTRTM.getId() + "-" + currentTRTM.getId();
+						}
+						
+						error = true;
+					}
+				}
+				
 				previousTRTM = currentTRTM;
 			}
 		}
