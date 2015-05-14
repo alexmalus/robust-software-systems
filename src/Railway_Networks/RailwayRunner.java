@@ -1,4 +1,5 @@
 package Railway_Networks;
+import java.util.HashMap;
 import java.util.Scanner;
 
 
@@ -13,7 +14,13 @@ public class RailwayRunner {
 		for (int i = 0; i <= 10; i++) {
 			System.out.println("########################################################################################\n");
 			System.out.println("PROCESSING railway_"+i+".txt");
-			new RailwayValidation(new RailwayParser().Run("railway_"+i+".txt"));
+			HashMap<String, Segment> segments = new RailwayParser().Run("railway_"+i+".txt");
+			segments = new RailwayValidation().RunInspection(segments);
+			
+			for (String key : segments.keySet()) {
+				if (segments.get(key).getComments().size() > 0)
+					System.out.println(segments.get(key).getComments());
+			}
 			System.out.println("Press ENTER");
 			s.nextLine();
 		}

@@ -88,10 +88,10 @@ public class RailwayParser {
 		}
 
 		// Check semantic errors
-		for (String key : segments.keySet()) {
-			if (segments.get(key).getComments().size() > 0)
-				System.out.println(segments.get(key).getComments());
-		}
+//		for (String key : segments.keySet()) {
+//			if (segments.get(key).getComments().size() > 0)
+//				System.out.println(segments.get(key).getComments());
+//		}
 		if (segments.size() == 0) {
 			printErrorMessage("File is empty or contains no valid lines");
 		}

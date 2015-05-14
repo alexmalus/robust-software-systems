@@ -6,11 +6,11 @@ public class RailwayValidation {
 
 	HashMap<String, Segment> segments;
 
-	public RailwayValidation(HashMap<String, Segment> segments) {
-		this.segments = segments;
+	public RailwayValidation() {
 	}
 
-	public void RunInspection() {
+	public HashMap<String, Segment> RunInspection(HashMap<String, Segment> segments) {
+		this.segments = segments;
 		System.out.println("Semantic errors: ");
 		for (String key : segments.keySet()) {
 			switch (segments.get(key).getType()) {
@@ -25,6 +25,7 @@ public class RailwayValidation {
 				break;
 			}
 		}
+		return segments;
 	}
 
 	public boolean InspectStation(String key) {
@@ -34,7 +35,6 @@ public class RailwayValidation {
 					"ERROR: " + key + " contains ID as connection");
 			RailwayParser.errorCounter++;
 		}
-
 		if (segments.get(key).getConnectionLength() < 2) {
 			segments.get(key).addComment(
 					"ERROR: " + key + " has too few conncetions");

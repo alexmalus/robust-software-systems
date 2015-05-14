@@ -10,7 +10,7 @@ public class Segment {
 	private ArrayList<String> connections;
 	
 	public Segment(String type){
-		this.type = type.toUpperCase();
+		this.type = type;
 		connections = new ArrayList<String>();
 		comments = new ArrayList<String>();
 	}
