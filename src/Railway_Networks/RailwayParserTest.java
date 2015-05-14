@@ -29,14 +29,14 @@ public class RailwayParserTest {
 	//or if there are duplicates like CONN h b, CONN h b
     public void empty2() {
 		RailwayParser railway_parser = new RailwayParser();
-		//for (int i = 0; i <= 9; i++) {
-			//HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-			HashMap<String, Segment> segments = railway_parser.Run("railway_1.txt");
+		for (int i = 0; i <= 9; i++) {
+			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_1.txt");
 			for (String key : segments.keySet()) {
 				assertThat(segments.get(key).getConnectionsArray().get(0), 
 					not(equalTo(segments.get(key).getConnectionsArray().get(1))));
 			}
-		//}
+		}
     }
     
 	@Test(expected= IndexOutOfBoundsException.class) 
@@ -44,10 +44,14 @@ public class RailwayParserTest {
     public void empty3() {
 		RailwayParser railway_parser = new RailwayParser();
 		for (int i = 0; i <= 9; i++) {
-			//HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-			HashMap<String, Segment> segments = railway_parser.Run("railway_3.txt");
+			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_3.txt");
 			for (String key : segments.keySet()) {
 				if (segments.get(key).getType().equals("STAT") && (segments.get(key).getConnectionsArray().get(2) != null))
+				{
+					fail("Not supposed to have this many connections");
+				}
+				else if(segments.get(key).getType().equals("CONN") && (segments.get(key).getConnectionsArray().get(3) != null))
 				{
 					fail("Not supposed to have this many connections");
 				}
@@ -55,23 +59,13 @@ public class RailwayParserTest {
 		}
     }
     
-	//a station cannot be defined twice
-	//same thing for an end station
-	//we need to save the symbol of the station when we CheckStation
-	//so I can check it here if they exist with different station names
-	//currently if we do STAT Hellerup h, STAT Lyngby h, we will have one station.
-	@Test
-	public void empty4() {
-		RailwayParser railway_parser = new RailwayParser();
-    }
-	
 	@Test
 	//this test tries to verify the Segment type is not of STAT or CONN
-    public void empty5() {
+    public void empty4() {
 		RailwayParser railway_parser = new RailwayParser();
 		for (int i = 0; i <= 9; i++) {
-			//HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-			HashMap<String, Segment> segments = railway_parser.Run("railway_3.txt");
+			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_3.txt");
 			for (String key : segments.keySet()) {
 				if (!(segments.get(key).getType().equals("STAT") ||
 					segments.get(key).getType().equals("CONN")))
@@ -81,21 +75,29 @@ public class RailwayParserTest {
 			}
 		}
     }
-	
+		
+	//a station cannot be defined twice; same thing for an end station
 	@Test
-	//this test tries to verify whether a connection is linked to itself in a CONN
-    public void empty6() {
+	public void empty5() {
+		int station_counter = 0;
 		RailwayParser railway_parser = new RailwayParser();
-		//for (int i = 0; i <= 9; i++) {
-			//HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-			HashMap<String, Segment> segments = railway_parser.Run("railway_6.txt");
+		for (int i = 0; i <= 9; i++) {
+			station_counter = 0;
+			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
+	//		HashMap<String, Segment> segments = railway_parser.Run("railway_1.txt");
+			String[] test_word = {"STAT", "Hellerup", "h"};
+			
 			for (String key : segments.keySet()) {
-				assertThat(segments.get(key).getConnectionsArray().get(0), 
-					not(equalTo(segments.get(key).getConnectionsArray().get(1))));
+				System.out.println(key);
+				if (key.equals(test_word[2]))
+				{
+					station_counter ++;
+				}
 			}
-		//}
+			assertEquals("counter should be 1", station_counter, 1);
+		}
     }
-
+	
 	@Test
 	public void testPrintErrorList() {
 		RailwayParser railway_parser = new RailwayParser();
