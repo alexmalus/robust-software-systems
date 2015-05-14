@@ -3,6 +3,12 @@ package Railway_Networks;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @authors Martin Petersson s103619, Casper Nielsen s093866
+ *
+ */
+
 public class Segment {
 
 	private String type;

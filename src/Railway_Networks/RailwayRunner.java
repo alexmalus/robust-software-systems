@@ -2,7 +2,11 @@ package Railway_Networks;
 import java.util.HashMap;
 import java.util.Scanner;
 
-
+/**
+ * 
+ * @authors Martin Petersson s103619, Casper Nielsen s093866
+ *
+ */
 
 public class RailwayRunner {
 

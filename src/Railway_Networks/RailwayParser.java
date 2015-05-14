@@ -6,6 +6,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
+/**
+ * 
+ * @authors Martin Petersson s103619, Casper Nielsen s093866
+ *
+ */
+
 public class RailwayParser {
 	/*
 	 * TODO validate input using regex a segment cannot be connected to itself

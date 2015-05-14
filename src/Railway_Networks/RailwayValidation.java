@@ -2,6 +2,12 @@ package Railway_Networks;
 
 import java.util.HashMap;
 
+/**
+ * 
+ * @authors Martin Petersson s103619, Casper Nielsen s093866
+ *
+ */
+
 public class RailwayValidation {
 
 	HashMap<String, Segment> segments;
