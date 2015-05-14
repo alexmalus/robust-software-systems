@@ -120,7 +120,14 @@ public class RailwayParser {
 			printErrorMessage("Station ID uses an invalid character (letters or alphabetic characters)");
 			return;
 		}
-		segments.put(word[2], new Segment(word[0]));
+		if(!segments.containsKey(word[2])){
+			segments.put(word[2], new Segment(word[0]));
+		}
+		else
+		{
+			printErrorMessage("Station ID (" + word[2] + ") already exists");
+			return;
+		}
 	}
 
 	// helper functions

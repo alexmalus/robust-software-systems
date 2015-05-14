@@ -1,5 +1,6 @@
 #TEST
 STAT Nørreport h
+STAT Hattefar h
 STAT Lyngby l
 STAT Klampenborg k
 CONN h b
