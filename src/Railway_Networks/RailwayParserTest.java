@@ -17,9 +17,9 @@ public class RailwayParserTest {
 		RailwayParser railway_parser = new RailwayParser();
 		for (int i = 0; i <= 9; i++) {
 			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-			//HashMap<String, Segment> segments = railway_parser.Run("railway_1.txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_0.txt");
 			for (String key : segments.keySet()) {
-				segments.get(key).getConnectionsArray().get(1);
+				assertNotNull("should not be null", segments.get(key).getConnectionsArray().get(1));
 			}
 		}
     }
@@ -31,7 +31,7 @@ public class RailwayParserTest {
 		RailwayParser railway_parser = new RailwayParser();
 		for (int i = 0; i <= 9; i++) {
 			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-//			HashMap<String, Segment> segments = railway_parser.Run("railway_1.txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_0.txt");
 			for (String key : segments.keySet()) {
 				assertThat(segments.get(key).getConnectionsArray().get(0), 
 					not(equalTo(segments.get(key).getConnectionsArray().get(1))));
@@ -45,7 +45,7 @@ public class RailwayParserTest {
 		RailwayParser railway_parser = new RailwayParser();
 		for (int i = 0; i <= 9; i++) {
 			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-//			HashMap<String, Segment> segments = railway_parser.Run("railway_3.txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_0.txt");
 			for (String key : segments.keySet()) {
 				if (segments.get(key).getType().equals("STAT") && (segments.get(key).getConnectionsArray().get(2) != null))
 				{
@@ -65,7 +65,7 @@ public class RailwayParserTest {
 		RailwayParser railway_parser = new RailwayParser();
 		for (int i = 0; i <= 9; i++) {
 			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-//			HashMap<String, Segment> segments = railway_parser.Run("railway_3.txt");
+//			HashMap<String, Segment> segments = railway_parser.Run("railway_0.txt");
 			for (String key : segments.keySet()) {
 				if (!(segments.get(key).getType().equals("STAT") ||
 					segments.get(key).getType().equals("CONN")))
@@ -84,7 +84,7 @@ public class RailwayParserTest {
 		for (int i = 0; i <= 9; i++) {
 			station_counter = 0;
 			HashMap<String, Segment> segments = railway_parser.Run("railway_"+i+".txt");
-	//		HashMap<String, Segment> segments = railway_parser.Run("railway_1.txt");
+	//		HashMap<String, Segment> segments = railway_parser.Run("railway_0.txt");
 			String[] test_word = {"STAT", "Hellerup", "h"};
 			
 			for (String key : segments.keySet()) {
@@ -108,5 +108,4 @@ public class RailwayParserTest {
 		assertEquals("should be one", railway_parser.errorList.size(), 1);
 		assertEquals("should be one", railway_parser.get_error_counter(), 1);
 	}
-
 }
